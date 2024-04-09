@@ -1,0 +1,41 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    width: 50%;
+    margin: 0 auto;
+    font-family: 'Times New Roman', Times, serif;
+    
+}
+.container {
+    width: 50%;
+  
+}
+
+#inputField {
+    width: 50%;
+    height: 1.5rem;
+    border: .1rem solid black;
+    vertical-align: middle;
+    
+}
+
+#addToDo {
+    width: 3rem;
+    height: 1.5rem;
+    border: .1rem solid black;
+    vertical-align: middle;
+}
+
+#toDoContainer {
+    margin-top: 1rem;
+}
+
+.paragraph-styling {
+    margin-top: 0;
+    cursor: pointer;
+}
+
+
+
