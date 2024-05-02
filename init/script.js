@@ -17,6 +17,8 @@ function storeTask(taskText) {
 
 }
 
+
+
 // Function to retrieve tasks from local storage 
 function retrieveTasks() {
   let storedTasks = {};
