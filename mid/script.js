@@ -11,7 +11,7 @@ async function storeTask(taskText) {
   };
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/tasks", {
+    const response = await fetch("https://todoapp123-48ha.onrender.com/api/tasks", {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -33,7 +33,7 @@ async function storeTask(taskText) {
 // Function to retrieve tasks from the server
 async function retrieveTasks() {
   try {
-    const response = await fetch("http://127.0.0.1:5000/api/tasks");
+    const response = await fetch("https://todoapp123-48ha.onrender.com/api/tasks");
 
     if (response.ok) {
       const tasks = await response.json();
@@ -90,7 +90,7 @@ const newCompleted = !currentCompleted
   //task.completed = !task.completed;
   
   try {
-    const response = await fetch(`http://127.0.0.1:5000/api/tasks/${id}`, {
+    const response = await fetch(`https://todoapp123-48ha.onrender.com/api/tasks/${id}`, {
       method: "PUT",
       headers: {
         "content-Type": "application/json",
@@ -115,7 +115,7 @@ const newCompleted = !currentCompleted
 async function retrieveTaskById(id) {
   
   try {
-    const response = await fetch(`http://127.0.0.1:5000/api/tasks/${id}`);
+    const response = await fetch(`https://todoapp123-48ha.onrender.com/api/tasks/${id}`);
 //console.log(id);
     if (response.ok) {
       const task = await response.json();
@@ -135,7 +135,7 @@ async function removeTask(taskElement) {
   const id = taskElement.dataset.taskId;
   
   try {
-    const response = await fetch(`http://127.0.0.1:5000/api/tasks/${id}`, {
+    const response = await fetch(`https://todoapp123-48ha.onrender.com/api/tasks/${id}`, {
       method: "DELETE",
     });
 
