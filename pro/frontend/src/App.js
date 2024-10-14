@@ -17,7 +17,13 @@ function App() {
     fetchTasks();
   }, []);
 
-  
+  const handleSearch = (searchTerm)=> {
+    const filteredTasks = tasks.filter((task) => {
+      const taskText = task.text.toLowerCase();
+      return taskText.includes(searchTerm.toLowerCase());
+    });
+    setTasks(filteredTasks);
+  };
 
 
 
