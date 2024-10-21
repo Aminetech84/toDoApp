@@ -11,9 +11,7 @@ app.use(express.json());
 
 // MongoDB connection
 mongoose
-  .connect(
-    "mongodb+srv://aminetech84:Azer1st628@cluster0.tptbq.mongodb.net/Tasks"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
@@ -85,7 +83,5 @@ app.delete("/api/tasks/:id", async (req, res) => {
 
 // Listening to the server
 app.listen(port, () => console.log(`Server listening on port ${port}`));
-
-
 
 //module.exports = index;
