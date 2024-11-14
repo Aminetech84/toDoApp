@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import axios from 'axios'
+
 function App() {
-  const [tasks, setTasks] = useState([
-    {
+  //Global state
+  const [tasks, setTasks] = useState([]);
+
+  //Adding a task state
+  const [task, setTask] = useState({
       text : '',
       completed: false
-    }
-  ]);
-
-  const [task, setTask] = useState();
+    });
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -25,29 +25,34 @@ function App() {
   }, []);
 
   const handleChange = (e) => {
-    const storedTask = e.target.value
-    //const {text, value} = e.target
-    console.log(storedTask);
-    
-    setTask( prevInput => {
-     return {
-      ...prevInput,
-      text: storedTask,
-      completed: false
-    }
+
+    setTask({
+      ...task,
+      text: e.target.value,
     });
   };
 
-const addTask = (e) => {
+const addTask = async (e) => {
   e.preventDefault();
-  console.log("Task Added");
-  const newTask = {
-    text : task.text,
-    completed: false
+  try {
+    const response = await fetch("/api/tasks/", {
+      method: "POST",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify(task),
+    });
+    const newTask = await response.json();
+    setTasks([...tasks, newTask]);
+    setTask({
+      text: '',
+      completed: false
+    });
+  } catch (error) {
+    console.error("Error adding task", error);
   }
-  
-  axios.post('api/tasks', newTask);
-}
+  console.log("Task Added");
+};
 
   const handleDelete = async (taskId) => {
     try {
@@ -61,6 +66,64 @@ const addTask = (e) => {
   };
 
   const handleToggleCompletion = async (taskId) => {
+    try {
+      const taskToUpdate = tasks.find((task) => task._id === taskId)
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: "PUT",
+        headers: {
+          "content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          completed: !taskToUpdate.completed,
+        }),
+      });
+
+      if (response.ok) {
+        const updatedTask = await response.json();
+        setTasks(
+          tasks.map((task) => (task._id === taskId ? updatedTask : task))
+        );
+      } else {
+        console.error("Error updating task", response.statusText);
+      }
+    } catch (error) {
+      console.error("Network error", error);
+    }
+  };
+
+  return (
+    <div className="App">
+      <form onSubmit={addTask}>
+        <input name="text"
+        type="text"
+    value={task.text}
+        placeholder="Add Tasks"
+        onChange={handleChange}
+      />
+      <button type="submit">Add Tasks</button>
+      </form>
+      
+      <ul>
+        {tasks.map((task) => (
+          <li key={task._id}>
+            <span style={{textDecoration: task.completed ? 'line-through' : 'none' }}
+            onClick={() => handleToggleCompletion(task._id) }
+            >
+            {task.text}
+            </span>
+            <button onClick={() => handleDelete(task._id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+/**
+ * 
+ * const handleToggleCompletion = async (taskId) => {
     try {
       const response = await fetch(`/api/tasks/${taskId}`, {
         method: "PUT",
@@ -84,34 +147,9 @@ const addTask = (e) => {
       console.error("Network error", error);
     }
   };
-
-  return (
-    <div className="App">
-      <form action="">
-        <input name="text"
-        type="text"
-    
-        placeholder="Add Tasks"
-        onChange={handleChange}
-      />
-      </form>
-      
-      <button onClick={addTask}>Add Tasks</button>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task._id}>
-            {task.text}
-            <button onClick={() => handleDelete(task._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-
-/**
+ * 
+ * 
+ * 
  * <input
               type="checkbox"
               checked={task.completed}
