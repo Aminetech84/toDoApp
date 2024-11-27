@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await fetch("/api/tasks");
+        const response = await fetch("https://todoapp123-48ha.onrender.com/api/tasks");
         const data = await response.json();
         setTasks(data);
       } catch (error) {
@@ -35,7 +35,7 @@ function App() {
 const addTask = async (e) => {
   e.preventDefault();
   try {
-    const response = await fetch("/api/tasks/", {
+    const response = await fetch("https://todoapp123-48ha.onrender.com/api/tasks", {
       method: "POST",
       headers: {
         "content-Type": "application/json",
@@ -68,7 +68,7 @@ const addTask = async (e) => {
   const handleToggleCompletion = async (taskId) => {
     try {
       const taskToUpdate = tasks.find((task) => task._id === taskId)
-      const response = await fetch(`/api/tasks/${taskId}`, {
+      const response = await fetch(`https://todoapp123-48ha.onrender.com/api/tasks/${taskId}`, {
         method: "PUT",
         headers: {
           "content-Type": "application/json",
